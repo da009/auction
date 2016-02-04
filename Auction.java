@@ -14,6 +14,8 @@ public class Auction
     // The number that will be given to the next lot entered
     // into this auction.
     private int nextLotNumber;
+    
+    private Bid bidder;
 
     /**
      * Create a new auction.
@@ -44,6 +46,7 @@ public class Auction
         }
     }
     
+   
     /**
      * Make a bid for a lot.
      * A message is printed indicating whether the bid is
@@ -57,18 +60,18 @@ public class Auction
     {
         Lot selectedLot = getLot(lotNumber);
         if(selectedLot != null) {
-            Bid bid = new Bid(bidder, value);
-            boolean successful = selectedLot.bidFor(bid);
+            
+            boolean successful = selectedLot.bidFor(new Bid(bidder,value));
             if(successful) {
                 System.out.println("The bid for lot number " +
                                    lotNumber + " was successful.");
             }
             else {
                 // Report which bid is higher.
-                Bid highestBid = selectedLot.getHighestBid();
+                
                 System.out.println("Lot number: " + lotNumber +
                                    " already has a bid of: " +
-                                   highestBid.getValue());
+                                   selectedLot.getHighestBid().getValue());
             }
         }
     }
@@ -101,4 +104,24 @@ public class Auction
             return null;
         }
     }
+    
+    /**
+     * Muestra por pantalla los detalles de todos los items que se estén subastando actualmente.
+     */
+    public void close()
+    {
+        showLots();
+        for (Lot lot : lots)
+        {
+            if (lot.getHighestBid() != null)
+            {
+                System.out.println(bidder.getBidder().getName());
+                lot.getHighestBid();
+            }
+            else
+            {
+                System.out.println("No se han encontrado pujas.");
+            }
+        }
+   }
 }
